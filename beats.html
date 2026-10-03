@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Beats | blanco</title>
+<meta name="description" content="Original beats by blanco.">
+<meta name="theme-color" content="#0a0a0b">
+<meta property="og:title" content="Beats | blanco"><meta property="og:description" content="Original beats by blanco."><meta property="og:image" content="/_images/blanco.jpg"><meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="/_images/BlancoLogo.png"><link rel="apple-touch-icon" href="/_images/BlancoLogo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="beats">
+<a class="skip" href="#main">Skip to content</a>
+<header><div class="wrap"><a class="logo" href="index.html" aria-label="blanco home"><img src="/_images/BlancoLogo.png" alt="blanco" height="36"></a>
+<nav aria-label="Main"><a href="index.html">Home</a><a href="beats.html" aria-current="page">Beats</a></nav></div></header>
+<main id="main"><div class="wrap"><h1>Beats</h1><p class="lead">Instrumentals by BlancoXC.</p>
+<div class="beats-layout">
+<section class="player" aria-label="Player"><div class="art"><img src="/_images/BlancoLogo.png" alt="blanco logo"></div><h2 class="np" id="np">Select a beat</h2><p class="by">BlancoXC</p>
+<input class="seek" id="seek" type="range" min="0" max="100" value="0" step="0.1" aria-label="Seek">
+<div class="times"><span id="cur">0:00</span><span id="dur">0:00</span></div>
+<div class="ctrls"><button id="prev" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zM9.5 12 18 6v12z"/></svg></button>
+<button class="main" id="play" aria-label="Play"><svg id="ico" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+<button id="next" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M16 6h2v12h-2zM6 18V6l8.5 6z"/></svg></button></div>
+<audio id="audio" preload="none"></audio></section>
+<ol class="list" id="list" aria-label="Tracks"></ol></div>
+<script>
+(function(){
+var T=[["Backstab","Backstab-BlancoXC.mp3"],["Lovely (BlancoXC Beats)","Lovely_-_BlancoXCBeats.mp3"],["Control","Control - BlancoXC.mp3"],["Paradise","Paradise.mp3"],["Lovely","Lovely.mp3"],["Kyro (Remix)","Kyro(Remix) - BlancoXCBeats.mp3"],["$Dilong","$Dilong.mp3"]],
+a=document.getElementById("audio"),L=document.getElementById("list"),i=-1,$=function(x){return document.getElementById(x)},
+P="M8 5v14l11-7z",Z="M6 5h4v14H6zm8 0h4v14h-4z";
+function f(t){t=isFinite(t)?t:0;return Math.floor(t/60)+":"+("0"+Math.floor(t%60)).slice(-2)}
+T.forEach(function(t,k){var li=document.createElement("li"),b=document.createElement("button");
+b.innerHTML='<span class="n">'+(k+1)+'</span><span class="t"></span><span class="s"></span>';
+b.children[1].textContent=t[0];b.onclick=function(){k===i?tog():load(k,true)};li.appendChild(b);L.appendChild(li)});
+function mark(){L.querySelectorAll("button").forEach(function(b,k){b.classList.toggle("on",k===i);b.children[2].textContent=k===i?(a.paused?"Paused":"Playing"):""})}
+function load(k,go){i=(k+T.length)%T.length;a.src="/_audio/"+encodeURIComponent(T[i][1]).replace(/%2F/g,"/");$("np").textContent=T[i][0];if(go)a.play();mark()}
+function tog(){if(i<0)return load(0,true);a.paused?a.play():a.pause()}
+$("play").onclick=tog;$("next").onclick=function(){load(i+1,true)};$("prev").onclick=function(){a.currentTime>3?a.currentTime=0:load(i<0?0:i-1,true)};
+a.onplay=a.onpause=function(){$("ico").firstElementChild.setAttribute("d",a.paused?P:Z);$("play").setAttribute("aria-label",a.paused?"Play":"Pause");mark()};
+a.onended=function(){load(i+1,true)};
+a.ontimeupdate=function(){$("cur").textContent=f(a.currentTime);if(a.duration)$("seek").value=a.currentTime/a.duration*100};
+a.onloadedmetadata=function(){$("dur").textContent=f(a.duration)};
+$("seek").oninput=function(){if(a.duration)a.currentTime=this.value/100*a.duration};
+})();
+</script>
+</div></main>
+<footer><div class="wrap"><span>&copy; 2026 blanco.co.za</span><span><button data-privacy>Privacy</button> &middot; <button id="manage">Cookies</button></span></div></footer>
+<div class="cookie" id="cookie" role="dialog" aria-label="Cookie consent"><p>We use essential cookies to run this site and optional ones to understand how it is used. See our <button data-privacy style="all:unset;cursor:pointer;text-decoration:underline">privacy notice</button>.</p><div class="row"><button class="btn" id="accept">Accept all</button><button class="btn ghost" id="decline">Essential only</button></div></div>
+<dialog id="privacy"><h2>Privacy &amp; cookies</h2><p>blanco.co.za stores a small cookie preference in your browser so we remember your choice. Essential cookies keep the site working. Optional cookies, if you accept them, help us measure visits anonymously.</p><p>We do not sell your personal information. You can change your choice at any time using the Cookies link in the footer. This notice is written with South Africa&rsquo;s POPIA in mind; contact us to access or delete any data we hold about you.</p><button class="btn" id="close">Close</button></dialog>
+<script src="script.js"></script>
+</body>
+</html>
